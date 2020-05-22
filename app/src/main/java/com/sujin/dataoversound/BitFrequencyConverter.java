@@ -39,6 +39,66 @@ public class BitFrequencyConverter {
         currShift=0;
     }
 
+    //Called to calculate bit from given frequency
+    public void calculateBits(double frequency){
+        byte resultBytes=0x00;
+        boolean freqFound=false;
+        boolean lastPart=false;
+        int counter=0;
+        //Go through all frequencies and find where given one belongs
+        for(int i=(startFrequency); i<=(endFrequency); i+=padding, counter++){
+            if(frequency>=(i-(padding/2)) && (frequency<=(i+(padding/2)))){
+                //If its one of first two frequencies, then its transfer of 1 or 0 b
+                if(counter==0 || counter==1){
+                    lastPart=true;
+                }
+                else{
+                    freqFound=true;
+                }
+                break;
+            }
+            else{
+                if(counter!=0 && counter!=1) {
+                    resultBytes += 0x01;
+                }
+            }
+        }
+        if(freqFound){
+            //Add bits of found frequency to read bytes list through current byte
+            int tempCounter=numberOfBitsInOneTone;
+            while(tempCounter>0){
+                byte mask=0x01;
+                mask<<=(tempCounter-1);
+                currByte<<=1;
+                if((mask&resultBytes)!=0x00){
+                    currByte+=0x01;
+                }
+                currShift++;
+                if(currShift==8){
+                    readBytes.add(currByte);
+                    currShift=0;
+                    currByte=0x00;
+                }
+                tempCounter--;
+            }
+        }
+        else {
+            if (lastPart){
+                //Its one of first tow frequencies for transfer 0 or 1 bit, add it to read bytes
+                currByte<<=1;
+                if(counter==1){
+                    currByte+=0x01;
+                }
+                currShift++;
+                if(currShift==8){
+                    readBytes.add(currByte);
+                    currByte=0x00;
+                    currShift=0;
+                }
+            }
+        }
+    }
+
     //Called to get and reset all read bytes
     public byte[] getAndResetReadBytes(){
         byte[] retArr;

@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -136,6 +137,17 @@ public class MainActivity extends AppCompatActivity implements CallbackSendRec {
         }
     }
 
+    //Called to reset view and flag to initial state from sending state
+    private void stopSending(){
+        isSending=false;
+    }
+
+    private void stopListening(){
+        if(isReceiving){
+            isReceiving=false;
+        }
+        isListening=false;
+    }
 
 
 
