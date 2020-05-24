@@ -2,6 +2,8 @@ package com.sujin.dataoversound;
 
 import android.os.AsyncTask;
 import android.os.Process;
+import android.util.Log;
+import android.widget.TextView;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -37,9 +39,6 @@ public class RecordTask extends AsyncTask<Integer, Void, Void> implements Callba
         int StartFrequency=integers[0];
         int EndFrequency=integers[1];
         int BitPerTone=integers[2];
-        int Encoding=integers[3];
-        int ErrorCheck=integers[4];
-        int ErrorCheckByteNum=integers[5];
         //Create list for recorded samples
         recordedArray=new ArrayList<ChunkElement>();
         //Create frequency to bit converter with specific parameters
@@ -144,10 +143,10 @@ public class RecordTask extends AsyncTask<Integer, Void, Void> implements Callba
         //Convert received frequencies to bytes
         byte[] readBytes= bitConverter.getAndResetReadBytes();
         try {
-            if(namePartBArray==null) {
-                //If its chat communication set message as return string
-                myString = new String(readBytes, "UTF-8");
-            }
+            //If its chat communication set message as return string
+            myString = new String(readBytes, "UTF-8");
+            callbackRet.actionDone(1, myString);
+            Log.v("WOAH! THE STRING IS", myString);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -252,4 +251,5 @@ public class RecordTask extends AsyncTask<Integer, Void, Void> implements Callba
     public void setFileName(String fileName){
         this.fileName=fileName;
     }
+
 }

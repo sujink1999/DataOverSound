@@ -16,6 +16,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
 
@@ -41,11 +43,18 @@ public class MainActivity extends AppCompatActivity implements CallbackSendRec {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button button = findViewById(R.id.play_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button sendButton = findViewById(R.id.play_button);
+        Button listenButton = findViewById(R.id.listen_button);
+        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendData();
+            }
+        });
+        listenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listenMessage();
             }
         });
         init();
@@ -65,8 +74,9 @@ public class MainActivity extends AppCompatActivity implements CallbackSendRec {
 
     void sendData(){
         sendTask = new BufferSoundTask();
+        EditText sendText = findViewById(R.id.sendText);
         try {
-            byte[] byteText = "sendText".getBytes("UTF-8");
+            byte[] byteText = sendText.getText().toString().getBytes("UTF-8");
             sendTask.setBuffer(byteText);
             Integer[] tempArr=new Integer[6];
             tempArr[0] = DEF_START_FREQUENCY;
@@ -93,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements CallbackSendRec {
     }
 
     //Called on listen button click
-    public void listenMessage(View view) {
+    public void listenMessage() {
         //If sending task is active, stop it and update GUI
         if(isSending){
             stopSending();
@@ -153,7 +163,10 @@ public class MainActivity extends AppCompatActivity implements CallbackSendRec {
 
     @Override
     public void actionDone(int srFlag, String message) {
-
+        TextView returnText = findViewById(R.id.returnText);
+        if (srFlag==1){
+            returnText.setText(message);
+        }
     }
 
     @Override
