@@ -3,11 +3,6 @@ package com.sujin.dataoversound;
 import android.os.AsyncTask;
 import android.os.Process;
 import android.util.Log;
-import android.widget.TextView;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
@@ -114,15 +109,7 @@ public class RecordTask extends AsyncTask<Integer, Void, Void> implements Callba
                         //chat message is expected fileName==null or if its data transfer and only name
                         //has been received, reset counters and flags and start receiving file data.
                         if(endCounter>=2){
-                            if(fileName!=null && namePartBArray==null){
-                                namePartBArray=bitConverter.getAndResetReadBytes();
-                                listeningStarted=0;
-                                startCounter=0;
-                                endCounter=0;
-                            }
-                            else{
-                                setWorkFalse();
-                            }
+                            setWorkFalse();
                         }
                     }
                     else{
