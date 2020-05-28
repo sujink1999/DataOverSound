@@ -77,6 +77,11 @@ public class MainActivity extends AppCompatActivity implements CallbackSendRec {
         EditText sendText = findViewById(R.id.sendText);
         try {
             byte[] byteText = sendText.getText().toString().getBytes("UTF-8");
+            String string = "";
+            for (byte val : byteText){
+                string+=" "+val;
+            }
+            Log.v("send", string);
             sendTask.setBuffer(byteText);
             Integer[] tempArr=new Integer[6];
             tempArr[0] = DEF_START_FREQUENCY;

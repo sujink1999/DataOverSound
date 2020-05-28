@@ -129,6 +129,11 @@ public class RecordTask extends AsyncTask<Integer, Void, Void> implements Callba
 
         //Convert received frequencies to bytes
         byte[] readBytes= bitConverter.getAndResetReadBytes();
+        String string = "";
+        for (byte val : readBytes){
+            string+=" "+val;
+        }
+        Log.v("send", string);
         try {
             //If its chat communication set message as return string
             myString = new String(readBytes, "UTF-8");
