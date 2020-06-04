@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Process;
 import android.util.Log;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 import static android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE;
@@ -147,6 +148,7 @@ public class RecordTask extends AsyncTask<Integer, Void, Void> implements Callba
 
     //Called for calculating frequency with highest amplitude from sound sample
     private double calculate(byte[] buffer, int StartFrequency, int EndFrequency, int HalfPad) {
+
         int analyzedSize=1024;
         Complex[] fftTempArray1= new Complex[analyzedSize];
         int tempI=-1;
@@ -161,9 +163,9 @@ public class RecordTask extends AsyncTask<Integer, Void, Void> implements Callba
             fftTempArray1[tempI]= new Complex(tempShort, 0);
         }
         //Do fast fourier transform
+        Log.d("fftArray", Arrays.toString(fftTempArray1));
         final  Complex[] fftArray1= FFT.fft(fftTempArray1);
         //Calculate position in array where analyzing should start and end
-
         int startIndex1=((StartFrequency-HalfPad)*(analyzedSize))/44100;
         int endIndex1=((EndFrequency+HalfPad)*(analyzedSize))/44100;
 

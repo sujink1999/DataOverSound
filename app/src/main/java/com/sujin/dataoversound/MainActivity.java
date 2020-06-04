@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements CallbackSendRec {
 

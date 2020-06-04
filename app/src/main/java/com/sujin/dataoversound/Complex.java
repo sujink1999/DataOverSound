@@ -150,4 +150,11 @@ public class Complex {
         return Objects.hash(re, im);
     }
 
+    public double getIm() {
+        return im;
+    }
+
+    public double getRe() {
+        return re;
+    }
 }
